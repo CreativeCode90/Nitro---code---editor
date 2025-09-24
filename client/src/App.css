@@ -1,0 +1,288 @@
+:root{
+  --darkBLuecolor : #11001c;
+  --darkPurplecolor : #1A0129;
+  --darkPinkcolor : #220135;
+  --lightPinkcolor : #3A025B;
+  --lightPurplecolor : #520380;
+  --lightpale: #EDB4B2;
+  --fulleditor : var(--darkBLuecolor);
+  --explorerbar : var(--darkBLuecolor);
+  --tabbar :var(--darkBLuecolor);
+  --editorbar : var(--darkPurplecolor);
+  --pannelbar : var(--lightPinkcolor);
+  --commonbutton : var(--lightPurplecolor);
+}
+
+*{
+   padding: 0;
+   margin: 0;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:var(--fulleditor);
+    color: white;
+    width: 100vw;
+    min-height: 100vh;
+}
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* for horizontal scrollbar */
+}
+.exporecoroot{
+    /* background-color: royalblue; */
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+.exfile{
+    background-color:var(--explorerbar);
+    flex: 0.23;
+    padding: 5px;
+   
+}
+
+.filesystem{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.pannel{
+    background-color:var(--pannelbar);
+    flex: 0.03;
+    padding: 3px;
+   
+}
+
+.action{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    gap: 5px;
+    button{
+        border: none;
+        background-color: transparent;
+        color: white;
+        padding: 3px 6px;
+        font-size: 10px;
+        text-transform: uppercase;
+        transition: 0.2s linear;
+        border: 0.3px solid var(--commonbutton);
+        &:hover{
+            background-color:var(--commonbutton);
+        }
+    }
+}
+
+
+.simplefileshowig{
+
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1px;
+}
+.listdirac{
+
+    overflow-y: auto;
+    height: 80%;
+}
+.listdirac::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* for horizontal scrollbar */
+}
+.listdir{
+    color: white;
+    text-decoration: none;
+    font-size: 11px;
+    transition: 0.2s linear;
+    display: flex;
+    gap: 1px;
+    justify-content: space-between;
+    flex-direction: column;
+    cursor: pointer;
+    overflow-y: auto;
+    #filena{
+    background-color: transparent;
+}
+    &:hover{
+        color: var(--lightPurplecolor);
+
+    }
+    img{
+        width: 12px;
+    }
+}
+
+
+
+.fileaction{
+    align-items: center;
+    gap: 5px;
+    display: none;
+  
+}
+
+.listdir:hover .fileaction{
+    display: flex;
+}
+
+
+.fac{
+    display: flex;
+    gap: 1px;
+    align-items: center;
+}
+#folderopen{
+    display: none;
+}
+
+
+#pathopen {
+  background-color: black !important; /* force black */
+  border: none;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  width: 98%;
+  padding: 3px;
+  font-size: 12px;
+  color: var(--lightpale);
+  border: 0.2px solid var(--lightPurplecolor);
+
+  /* when focused */
+  &:focus {
+    background-color: black !important;
+    color: rgb(255, 255, 255);
+    outline: none;
+  }
+
+  /* when it has a value */
+  &:not(:placeholder-shown) {
+    background-color: black !important;
+    color: rgb(255, 255, 255);
+  }
+
+  /* also handle autofill (Chrome/Edge) */
+  &:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px black inset !important;
+    -webkit-text-fill-color: var(--lightpale) !important;
+    caret-color: rgb(255, 255, 255);
+  }
+}
+
+
+
+/* file file */
+
+.filem{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  
+}
+.tabbar{
+    background-color:var(--tabbar);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+}
+.tabfile{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 12px;
+    color: grey;
+    background-color: rgb(34, 3, 64);
+    padding: 5px 10px ;
+    justify-content: space-between;
+    transition: 0.2s linear;
+    cursor: pointer;
+    &:hover{
+
+    background-color: rgb(49, 3, 94);
+    }
+    img{
+        width: 12px;
+    }
+}
+.filename{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.fileeditor{
+    background-color: var(--editorbar);
+    height: 100%;
+    overflow-y: auto;
+    width: 99%;
+
+      display: flex;            /* center child */
+  justify-content: center;  /* horizontal center */
+  align-items: center;      /* vertical center */
+}
+.fileiconclass{
+    padding-left: 12px;
+}
+
+.fileeditor::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* for horizontal scrollbar */
+}
+
+
+
+.codeblock {
+  margin: 0;
+  background-color: rgb(20, 20, 20);
+  width: 100%;
+  height: 100%;
+  color: #ddd;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.5;
+
+  white-space: pre;       /* keep indentation */
+  overflow: auto;         /* allow scrolling inside */
+  padding: 5px 5px;   
+    box-sizing: border-box;  /* include padding in width/height */
+}
+.codeblock::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* for horizontal scrollbar */
+}
+
+/* highlight colors */
+.keyword {
+  color: #eb644c;
+  font-weight: 500;
+}
+
+.string {
+  color: rgb(189, 9, 120);
+}
+
+.number {
+  color: #b5cea8;
+}
+
+.comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
+
+.savingbutton{
+     border: 1px solid white;
+     background-color: transparent;
+     color: white;
+     font-size: 9px;
+     padding: 4px 10px;
+     border-radius: 10px;
+}
