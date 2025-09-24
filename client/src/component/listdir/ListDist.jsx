@@ -161,7 +161,7 @@ export default function ListDist({ listdir, openFile, deletefileandfolder }) {
 
             {/* nested children */}
             {expandedFolders[e.path] && (
-              <div className="nested-folder" style={{ marginLeft: "20px" }}>
+              <div className="nested-folder" style={{ marginLeft: "5px" }}>
                 <ListDist
                   listdir={expandedFolders[e.path]}
                   openFile={openFile}
