@@ -5,8 +5,13 @@ export const FileTabContext = createContext();
 export const FileTabContextProvider = (props)=>{
     const [fileopen , setFileOpen] = useState([]);
     const [fileData , setFileData] = useState('');
+    const [cursorPos, setCursorPos] = useState({ line: 1, col: 1 });
+      const [indentInfo, setIndentInfo] = useState({
+        tabSize: 4,
+        insertSpaces: true,
+      });
     return(
-        <FileTabContext.Provider value={{fileopen , setFileOpen , fileData , setFileData}} >
+        <FileTabContext.Provider value={{fileopen , setFileOpen , fileData , setFileData,cursorPos, setCursorPos,indentInfo, setIndentInfo}} >
             {props.children}
         </FileTabContext.Provider>
     )

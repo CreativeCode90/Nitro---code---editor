@@ -1,6 +1,7 @@
 .toolbar{
     background-color:var(--explorerbar);
     padding: 4px;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 1rem;

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nitro — Web Editor Documentation</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6f8;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: #1e1e1e;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: #00ff9f;
+    }
+    main {
+      padding: 30px;
+      max-width: 900px;
+      margin: auto;
+    }
+    section {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    section h2 {
+      color: #1e1e1e;
+      border-bottom: 2px solid #00ff9f;
+      padding-bottom: 5px;
+    }
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: 'Courier New', Courier, monospace;
+    }
+    ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+    .highlight {
+      background: #00ff9f22;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Nitro — Web Editor</h1>
+  <p>A lightweight online web editor to open and manage local project folders.</p>
+</header>
+
+<main>
+  <section>
+    <h2>Overview</h2>
+    <p><span class="highlight">Nitro</span> lets users:</p>
+    <ul>
+      <li>Copy a project path from their system and paste it into the editor.</li>
+      <li>View files and folders of the project in a tree-like explorer.</li>
+      <li>Select a file to read, edit, and save content.</li>
+      <li>Create files/folders and delete items.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Architecture</h2>
+    <p>Frontend: <span class="highlight">React</span></p>
+    <ul>
+      <li>Explorer UI to navigate project folders.</li>
+      <li>Recursive file list component.</li>
+      <li>Editor pane using <span class="highlight">@monaco-editor/react</span> with syntax highlighting.</li>
+    </ul>
+    <p>Backend: <span class="highlight">Flask</span></p>
+    <ul>
+      <li>API endpoints for working directory, reading/writing files, creating/deleting files and folders.</li>
+      <li>CORS enabled for local development.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Terminal Feature</h2>
+    <p>Nitro includes two types of terminals:</p>
+    <ul>
+      <li>Basic file-handling terminal: list directories, create/remove files/folders, rename, chmod.</li>
+      <li>Compiling terminal: run Python, JS, Java code and view outputs.</li>
+    </ul>
+    <p>The terminal is implemented from scratch in React and connects to a Flask backend.</p>
+  </section>
+
+  <section>
+    <h2>API Endpoints</h2>
+    <pre><code>POST /choose      — set working directory
+GET  /cd          — list files/folders
+POST /selectFolder — list folder children
+POST /ReadFile     — read file contents
+POST /WriteFile    — write/save file
+POST /makefile     — create a file
+POST /makefolder   — create a folder
+POST /delete       — delete file/folder</code></pre>
+  </section>
+
+  <section>
+    <h2>Frontend Components</h2>
+    <ul>
+      <li><span class="highlight">Explore.jsx</span> — explorer layout & API calls</li>
+      <li><span class="highlight">ListDist.jsx</span> — recursive file list</li>
+      <li><span class="highlight">File.jsx</span> — editor pane</li>
+      <li><span class="highlight">ToolBar.jsx</span> — toolbar for actions & theme switching</li>
+      <li><span class="highlight">FileTabContext</span> — holds open file state</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Running Nitro Locally</h2>
+    <ul>
+      <li>Backend: `pip install flask flask-cors` → `python app.py`</li>
+      <li>Frontend: `npx create-react-app nitro` → `npm install axios @monaco-editor/react` → `npm start`</li>
+      <li>Open <span class="highlight">http://localhost:3000</span> and paste a project path.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Security Notes</h2>
+    <ul>
+      <li>Do not expose Nitro to public servers without authentication.</li>
+      <li>Running Nitro allows frontend access to your local filesystem.</li>
+      <li>Use path validation and permission checks to prevent unsafe operations.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Future Roadmap</h2>
+    <ul>
+      <li>Multiple tabs with persistent state</li>
+      <li>Search-in-files</li>
+      <li>File watchers for auto-refresh</li>
+      <li>Optional zip export/import</li>
+      <li>Custom themes for the editor</li>
+    </ul>
+  </section>
+
+</main>
+
+</body>
+</html>

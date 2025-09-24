@@ -4,6 +4,7 @@
   --darkPinkcolor : #220135;
   --lightPinkcolor : #3A025B;
   --lightPurplecolor : #520380;
+  --morelightPurplecolor : #db9dff;
   --lightpale: #EDB4B2;
   --fulleditor : var(--darkBLuecolor);
   --explorerbar : var(--darkBLuecolor);
@@ -11,6 +12,7 @@
   --editorbar : var(--darkPurplecolor);
   --pannelbar : var(--lightPinkcolor);
   --commonbutton : var(--lightPurplecolor);
+  --terminalcolor : black;
 }
 
 *{
@@ -52,10 +54,20 @@ body::-webkit-scrollbar {
 .pannel{
     background-color:var(--pannelbar);
     flex: 0.03;
-    padding: 3px;
-   
+    padding: 3px 10px;
+    display: flex;
+    align-items : center;
+    justify-content: end;
+    p{
+      font-size: 12px;
+    }
 }
 
+.pn1{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 .action{
     display: flex;
     align-items: center;
@@ -109,7 +121,7 @@ body::-webkit-scrollbar {
     background-color: transparent;
 }
     &:hover{
-        color: var(--lightPurplecolor);
+        color: var(--morelightPurplecolor);
 
     }
     img{
@@ -155,7 +167,7 @@ body::-webkit-scrollbar {
   /* when focused */
   &:focus {
     background-color: black !important;
-    color: rgb(255, 255, 255);
+    color: var(--morelightPurplecolor);
     outline: none;
   }
 
@@ -168,7 +180,7 @@ body::-webkit-scrollbar {
   /* also handle autofill (Chrome/Edge) */
   &:-webkit-autofill {
     box-shadow: 0 0 0px 1000px black inset !important;
-    -webkit-text-fill-color: var(--lightpale) !important;
+    -webkit-text-fill-color: var(--morelightPurplecolor) !important;
     caret-color: rgb(255, 255, 255);
   }
 }

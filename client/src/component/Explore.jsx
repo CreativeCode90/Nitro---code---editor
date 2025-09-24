@@ -15,9 +15,10 @@ import FileIcon from "../../public/file.png";
 import { ExtensionIcon } from "./ExtensionIcon";
 
 import ListDist from "./listdir/ListDist";
+import NirtroTerminal from "./terminal/NirtroTerminal";
 
 export default function Explore() {
-  const { fileopen, setFileOpen } = useContext(FileTabContext);
+  const { fileopen, setFileOpen , cursorPos, setCursorPos,indentInfo, setIndentInfo } = useContext(FileTabContext);
 
   const [folderName, setFolderName] = useState("");
 
@@ -136,9 +137,7 @@ export default function Explore() {
 
   return (
     <div className="exporecoroot">
-      {
-        /* <ToolBar />*/
-      }
+      <ToolBar />
       <div className="exfile">
         <p>Nitro - Editor </p>
 
@@ -170,9 +169,16 @@ export default function Explore() {
 
       <div className="filesystem">
         <Outlet />
-
+        <NirtroTerminal/>
         <div className="pannel">
-          <p>pannel</p>
+          <div className="pn1">
+            <p>
+            Ln {cursorPos.line}, Col {cursorPos.col}  
+          </p>
+          <p>
+            {indentInfo.insertSpaces ? "Spaces" : "Tab"}: {indentInfo.tabSize}
+          </p>
+          </div>
         </div>
       </div>
     </div>
