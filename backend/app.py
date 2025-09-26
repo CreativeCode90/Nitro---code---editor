@@ -26,7 +26,7 @@ class FileManagerAPI:
             "/selectFolder", view_func=self.selectFolder, methods=["POST"]
         )
         self.app.add_url_rule("/ReadFile", view_func=self.ReadFile, methods=["POST"])
-        self.app.add_url_rule("/WriteFile", view_func=self.WriteFile, methods=["POST"])  # ✅ new
+        self.app.add_url_rule("/WriteFile", view_func=self.WriteFile, methods=["POST"]) 
 
     # ---------- ROUTES ---------- #
 
