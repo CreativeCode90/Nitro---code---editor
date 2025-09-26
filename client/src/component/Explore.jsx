@@ -33,7 +33,7 @@ export default function Explore() {
     if (!isResizing.current) return;
     const dx = e.clientX - startX.current;
     // Limit between 150px (min) and 300px (max)
-    setSidebarWidth(Math.min(900, Math.max(200, startWidth.current + dx)));
+    setSidebarWidth(Math.min(400, Math.max(200, startWidth.current + dx)));
   };
 
   const onMouseUp = () => {
