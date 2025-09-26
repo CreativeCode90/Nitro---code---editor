@@ -1,160 +1,211 @@
-:root{
-  --darkBLuecolor : #11001c;
-  --darkPurplecolor : #1A0129;
-  --darkPinkcolor : #220135;
-  --lightPinkcolor : #3A025B;
-  --lightPurplecolor : #520380;
-  --morelightPurplecolor : #db9dff;
+:root {
+  --darkBLuecolor: #11001c;
+  --darkPurplecolor: #1A0129;
+  --darkPinkcolor: #220135;
+  --lightPinkcolor: #3A025B;
+  --lightPurplecolor: #520380;
+  --morelightPurplecolor: #db9dff;
   --lightpale: #EDB4B2;
-  --fulleditor : var(--darkBLuecolor);
-  --explorerbar : var(--darkBLuecolor);
-  --tabbar :var(--darkBLuecolor);
-  --editorbar : var(--darkPurplecolor);
-  --pannelbar : var(--lightPinkcolor);
-  --commonbutton : var(--lightPurplecolor);
-  --terminalcolor : black;
+  --fulleditor: var(--darkBLuecolor);
+  --explorerbar: var(--darkBLuecolor);
+  --tabbar: var(--darkBLuecolor);
+  --editorbar: var(--darkPurplecolor);
+  --pannelbar: var(--lightPinkcolor);
+  --commonbutton: var(--lightPurplecolor);
+  --terminalcolor: black;
 }
 
-*{
-   padding: 0;
-   margin: 0;
-   font-family: Arial, Helvetica, sans-serif;
+* {
+  padding: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-body{
-    background:var(--fulleditor);
-    color: white;
-    width: 100vw;
-    min-height: 100vh;
+body {
+  background: var(--fulleditor);
+  color: white;
+  width: 100vw;
+  min-height: 100vh;
 }
+
 body::-webkit-scrollbar {
   width: 8px;
-  height: 8px; /* for horizontal scrollbar */
-}
-.exporecoroot{
-    /* background-color: royalblue; */
-    width: 100%;
-    height: 100vh;
-    display: flex;
-}
-.exfile{
-    background-color:var(--explorerbar);
-    flex: 0.23;
-    padding: 5px;
-   
+  height: 8px;
+  /* for horizontal scrollbar */
 }
 
-.filesystem{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+.exporecoroot {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
 }
 
-.pannel{
-    background-color:var(--pannelbar);
-    flex: 0.03;
-    padding: 3px 10px;
-    display: flex;
-    align-items : center;
-    justify-content: end;
-    p{
-      font-size: 12px;
-    }
+.exfile {
+  background-color: var(--explorerbar);
+  width: 250px;
+  /* initial width in pixels */
+  min-width: 150px;
+  /* prevent collapsing */
+  padding: 5px;
+  position: relative;
+  /* needed for absolute resizer */
+  height: 100%;
+  /* fill the container height */
+  user-select: none;
+  overflow: hidden;
 }
 
-.pn1{
+.exfile::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+  /* for horizontal scrollbar */
+}
+
+.sidebar-resizer {
+  width: 5px;
+  cursor: ew-resize;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background: transparent;
+  /* optional highlight */
+  z-index: 10;
+}
+
+
+
+.filesystem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.pannel {
+  background-color: var(--pannelbar);
+  flex: 0.03;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+  p {
+    font-size: 12px;
+  }
+}
+
+.pn1 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-.action{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 5px;
-    gap: 5px;
-    button{
-        border: none;
-        background-color: transparent;
-        color: white;
-        padding: 3px 6px;
-        font-size: 10px;
-        text-transform: uppercase;
-        transition: 0.2s linear;
-        border: 0.3px solid var(--commonbutton);
-        &:hover{
-            background-color:var(--commonbutton);
-        }
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  gap: 5px;
+
+  button {
+    border: none;
+    background-color: transparent;
+    color: white;
+    padding: 3px 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    transition: 0.2s linear;
+    border: 0.3px solid var(--commonbutton);
+
+    &:hover {
+      background-color: var(--commonbutton);
     }
+  }
 }
 
 
-.simplefileshowig{
+.simplefileshowig {
 
-    padding: 2px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.1px;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1px;
 }
-.listdirac{
 
-    overflow-y: auto;
-    height: 80%;
+.listdirac {
+
+  overflow-y: auto;
+  height: 80%;
 }
+
 .listdirac::-webkit-scrollbar {
   width: 8px;
-  height: 8px; /* for horizontal scrollbar */
+  height: 8px;
+  /* for horizontal scrollbar */
 }
-.listdir{
-    color: white;
-    text-decoration: none;
-    font-size: 11px;
-    transition: 0.2s linear;
-    display: flex;
-    gap: 1px;
-    justify-content: space-between;
-    flex-direction: column;
-    cursor: pointer;
-    overflow-y: auto;
-    #filena{
+
+.listdir {
+  color: white;
+  text-decoration: none;
+  font-size: 11px;
+  transition: 0.2s linear;
+  display: flex;
+  gap: 1px;
+  justify-content: space-between;
+  flex-direction: column;
+  cursor: pointer;
+  overflow-y: auto;
+
+  #filena {
     background-color: transparent;
+
+  }
+
+  &:hover {
+    color: var(--morelightPurplecolor);
+
+  }
+
+  img {
+    width: 12px;
+  }
 }
-    &:hover{
-        color: var(--morelightPurplecolor);
-
-    }
-    img{
-        width: 12px;
-    }
-}
 
 
 
-.fileaction{
-    align-items: center;
-    gap: 5px;
-    display: none;
+
+.fileaction {
+  align-items: center;
+  gap: 5px;
+  display: none;
   
+  background-color: red;
+
 }
 
-.listdir:hover .fileaction{
-    display: flex;
-}
+/* .listdir:hover .fileaction {
+  display: flex;
+} */
 
 
-.fac{
-    display: flex;
-    gap: 1px;
-    align-items: center;
+.fac {
+  display: flex;
+  gap: 1px;
+  align-items: center;
+  /* background-color: darkgoldenrod; */
+ 
 }
-#folderopen{
-    display: none;
+
+#folderopen {
+  display: none;
 }
 
 
 #pathopen {
-  background-color: black !important; /* force black */
+  background-color: black !important;
+  /* force black */
   border: none;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -189,63 +240,73 @@ body::-webkit-scrollbar {
 
 /* file file */
 
-.filem{
-    width: 100%;
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  
+.filem {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
 }
-.tabbar{
-    background-color:var(--tabbar);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
+
+.tabbar {
+  background-color: var(--tabbar);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
 }
-.tabfile{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 12px;
-    color: grey;
-    background-color: rgb(34, 3, 64);
-    padding: 5px 10px ;
-    justify-content: space-between;
-    transition: 0.2s linear;
-    cursor: pointer;
-    &:hover{
+
+.tabfile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 12px;
+  color: grey;
+  background-color: rgb(34, 3, 64);
+  padding: 5px 10px;
+  justify-content: space-between;
+  transition: 0.2s linear;
+  cursor: pointer;
+
+  &:hover {
 
     background-color: rgb(49, 3, 94);
-    }
-    img{
-        width: 12px;
-    }
-}
-.filename{
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  }
+
+  img {
+    width: 12px;
+  }
 }
 
-.fileeditor{
-    background-color: var(--editorbar);
-    height: 100%;
-    overflow-y: auto;
-    width: 99%;
-
-      display: flex;            /* center child */
-  justify-content: center;  /* horizontal center */
-  align-items: center;      /* vertical center */
+.filename {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
-.fileiconclass{
-    padding-left: 12px;
+
+.fileeditor {
+  background-color: var(--editorbar);
+  height: 100%;
+  overflow-y: auto;
+  width: 99%;
+
+  display: flex;
+  /* center child */
+  justify-content: center;
+  /* horizontal center */
+  align-items: center;
+  /* vertical center */
+}
+
+.fileiconclass {
+  padding-left: 12px;
 }
 
 .fileeditor::-webkit-scrollbar {
   width: 8px;
-  height: 8px; /* for horizontal scrollbar */
+  height: 8px;
+  /* for horizontal scrollbar */
 }
 
 
@@ -260,14 +321,19 @@ body::-webkit-scrollbar {
   font-size: 14px;
   line-height: 1.5;
 
-  white-space: pre;       /* keep indentation */
-  overflow: auto;         /* allow scrolling inside */
-  padding: 5px 5px;   
-    box-sizing: border-box;  /* include padding in width/height */
+  white-space: pre;
+  /* keep indentation */
+  overflow: auto;
+  /* allow scrolling inside */
+  padding: 5px 5px;
+  box-sizing: border-box;
+  /* include padding in width/height */
 }
+
 .codeblock::-webkit-scrollbar {
   width: 8px;
-  height: 8px; /* for horizontal scrollbar */
+  height: 8px;
+  /* for horizontal scrollbar */
 }
 
 /* highlight colors */
@@ -290,11 +356,11 @@ body::-webkit-scrollbar {
 }
 
 
-.savingbutton{
-     border: 1px solid white;
-     background-color: transparent;
-     color: white;
-     font-size: 9px;
-     padding: 4px 10px;
-     border-radius: 10px;
+.savingbutton {
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  font-size: 9px;
+  padding: 4px 10px;
+  border-radius: 10px;
 }
