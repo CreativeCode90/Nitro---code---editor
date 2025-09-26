@@ -1,93 +1,194 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect ,useContext } from "react";
 import "./style.css";
-
+import { FileTabContext } from "../../context/FileTabContent";
 export default function NitroTerminal() {
+    const {workingpath,} = useContext(FileTabContext);
+    
   const [lines, setLines] = useState([
     {
-      path: "C:\\Users\\dell\\Desktop\\py\\Nitro - code - editor\\client>",
-      command: "",
+      path: workingpath,
+      command: "ls",
+      output: "",
     },
   ]);
-
-  const lastPromptRef = useRef(null);
-
-  // Always focus on the latest prompt
-  useEffect(() => {
-    if (lastPromptRef.current) {
-      lastPromptRef.current.focus();
-
-      // Move caret to the end
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(lastPromptRef.current);
-      range.collapse(false);
-      selection.removeAllRanges();
-      selection.addRange(range);
+  // 1️⃣ Update lines when workingpath changes
+useEffect(() => {
+  setLines((prev) => {
+    // Update the first line's path if it's empty or different
+    if (prev.length > 0) {
+      const firstLine = prev[0];
+      if (!firstLine.path || firstLine.path !== workingpath) {
+        return [{ ...firstLine, path: workingpath }, ...prev.slice(1)];
+      }
     }
-  }, [lines]);
+    return prev;
+  });
+}, [workingpath]);
 
-  const handleKeyDown = (e, index) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const command = lines[index].command;
+  const [height, setHeight] = useState(200);
+  const terminalRef = useRef(null);
+  const isResizing = useRef(false);
+  const startY = useRef(0);
+  const startHeight = useRef(0);
 
-      setLines((prev) => [
-        ...prev.map((line, i) =>
-          i === index ? { ...line, command } : line
-        ),
-        {
-          path: "C:\\Users\\dell\\Desktop\\py\\Nitro - code - editor\\client>",
-          command: "",
-        },
-      ]);
+  // Refs for each prompt
+  const promptRefs = useRef([]);
+
+  // ---------- Resizing Handlers ----------
+  const onMouseDown = (e) => {
+    isResizing.current = true;
+    startY.current = e.clientY;
+    startHeight.current = height;
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  };
+
+  const onMouseMove = (e) => {
+    if (!isResizing.current) return;
+    const dy = startY.current - e.clientY;
+    setHeight(Math.max(50, startHeight.current + dy));
+  };
+
+  const onMouseUp = () => {
+    isResizing.current = false;
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  };
+
+  // ---------- Focus Helpers ----------
+  const focusPrompt = (index) => {
+    const prompt = promptRefs.current[index];
+    if (prompt) {
+      prompt.focus();
+      placeCaretAtEnd(prompt);
     }
   };
+
+  const placeCaretAtEnd = (el) => {
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  };
+
+  // ---------- Always focus last prompt on lines update ----------
+  useEffect(() => {
+    focusPrompt(lines.length - 1);
+  }, [lines]);
+
+  // ---------- Terminal Input Handlers ----------
+ const handleKeyDown = async (e, index) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    const command = lines[index].command.trim();
+    let output = "";
+
+    // Handle `cd` command locally to update path
+    let newPath = lines[index].path;
+    if (command.startsWith("cd ")) {
+      const target = command.slice(3).trim();
+
+      // Simple backend call to validate/change path
+      try {
+        const res = await fetch("http://127.0.0.1:5000/terminal", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command }),
+        });
+        const data = await res.json();
+        output = data.output || "";
+
+        // If backend returns a valid new path, update
+        if (data.newPath) {
+          newPath = data.newPath; // backend should return current path after cd
+        }
+      } catch (err) {
+        output = "Error executing cd command";
+      }
+    } else {
+      // Other commands
+      try {
+        const res = await fetch("http://127.0.0.1:5000/terminal", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command }),
+        });
+        const data = await res.json();
+        output = data.output || "";
+      } catch (err) {
+        output = "Error executing command";
+      }
+    }
+
+    // Append new line with updated path
+    setLines((prev) => [
+      ...prev.map((line, i) =>
+        i === index ? { ...line, command, output } : line
+      ),
+      {
+        path: newPath,
+        command: "",
+        output: "",
+      },
+    ]);
+  }
+};
+
 
   const handleInput = (e, index) => {
     const text = e.target.innerText;
     setLines((prev) =>
-      prev.map((line, i) =>
-        i === index ? { ...line, command: text } : line
-      )
+      prev.map((line, i) => (i === index ? { ...line, command: text } : line))
     );
+  };
 
-    // keep caret at end
-    const selection = window.getSelection();
-    const range = document.createRange();
-    range.selectNodeContents(e.target);
-    range.collapse(false);
-    selection.removeAllRanges();
-    selection.addRange(range);
+  // ---------- Always focus last prompt on click ----------
+  const handleTerminalClick = () => {
+    focusPrompt(lines.length - 1);
   };
 
   return (
-    <div
-      className="nitroterminal"
-      onContextMenu={(e) => e.preventDefault()}
-    >
-      <div className="terminaltitle">
-        <p>nitro terminal</p>
-        <img src="../../../public/close.png" alt="close" />
-      </div>
+    <div className="nitroterminal-wrapper">
+      <div className="resizer" onMouseDown={onMouseDown}></div>
+      <div
+        className="nitroterminal"
+        ref={terminalRef}
+        style={{ height: `${height}px` }}
+        onClick={handleTerminalClick}
+      >
+        <div className="terminaltitle">
+          <p>nitro terminal</p>
+          <img src="../../../public/close.png" alt="close" />
+        </div>
 
-      <div className="terminalcommandsprompt">
-        {lines.map((line, index) => (
-          <div key={index} className="terminalline">
-            <div className="terminalpath">
-              <p>* {line.path}</p>
+        <div className="terminalcommandsprompt">
+          {lines.map((line, index) => (
+            <div key={index} className="terminalline">
+              <div className="prompt">
+                <div className="terminalpath">
+                  <p>* {line.path} {'>'} </p>
+                </div>
+                <div
+                  className="terminalprompt"
+                  contentEditable={true}
+                  suppressContentEditableWarning={true}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onInput={(e) => handleInput(e, index)}
+                  ref={(el) => (promptRefs.current[index] = el)}
+                >
+                  {line.command}
+                </div>
+              </div>
+              {line.output && (
+                <div className="terminaloutput">
+                  <pre>{line.output}</pre>
+                </div>
+              )}
             </div>
-            <div
-              className="terminalprompt"
-              ref={index === lines.length - 1 ? lastPromptRef : null}
-              contentEditable={true}
-              suppressContentEditableWarning={true}
-              onKeyDown={(e) => handleKeyDown(e, index)}
-              onInput={(e) => handleInput(e, index)}
-            >
-              {line.command}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

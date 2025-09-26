@@ -7,6 +7,8 @@
   display: flex;
   flex-direction: column; /* stack children vertically */
   gap: 4px;
+  user-select: none;
+
 }
 
 .terminaltitle{
@@ -33,6 +35,11 @@
   gap: 10px;
   font-size: 13px;
   flex-direction: column;
+    overflow-y: auto;
+}
+.terminalcommandsprompt::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* for horizontal scrollbar */
 }
 .terminalpath p {
   color: rgb(33, 255, 151);
@@ -50,10 +57,40 @@ direction: ltr;         /* always left-to-right */
 .terminalline{
   display: flex;
   gap: 10px;
+  flex-direction: column;
 }
 
 .terminalprompt:focus {
   animation: blink-caret 1s step-end infinite;
+}
+
+.nitroterminal-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.resizer {
+  height: 5px;
+  cursor: ns-resize; /* up-down arrow */
+  background: #bc34f7;
+  width: 100%;
+}
+.terminaloutput {
+  color: #0f0;
+  font-family: monospace;
+  white-space: pre-wrap;
+  margin-left: 10px;
+}
+.terminalprompt:focus {
+  outline: none;
+  caret-color: #0f0;
+  animation: blink-caret 1s step-end infinite;
+}
+
+.prompt{
+  display: flex;
+  gap: 10px;
 }
 
 @keyframes blink-caret {

@@ -18,7 +18,8 @@ import ListDist from "./listdir/ListDist";
 import NirtroTerminal from "./terminal/NirtroTerminal";
 
 export default function Explore() {
-  const { fileopen, setFileOpen , cursorPos, setCursorPos,indentInfo, setIndentInfo } = useContext(FileTabContext);
+  const {setFileOpen,cursorPos,indentInfo,workingpath,
+        setWorkingpath,} = useContext(FileTabContext);
 
   const [folderName, setFolderName] = useState("");
 
@@ -59,6 +60,9 @@ export default function Explore() {
           res.data.msg === "Directory exists"
         ) {
           setListDir(res.data.data);
+          setWorkingpath(res.data.dir);
+        
+          
         } else {
           setListDir([]);
         }
@@ -67,6 +71,7 @@ export default function Explore() {
       .catch((err) => console.log("Error fetching dir:", err));
   };
 
+
   useEffect(() => {
     fetchDirectory();
   }, []);
@@ -74,17 +79,15 @@ export default function Explore() {
   const openFile = (fileObj) => {
     const fileopendata = {
       extension: fileObj.extension,
-
       name: fileObj.name,
-
       path: fileObj.path,
-
       type: fileObj.type,
-
       icon: ExtensionIcon[fileObj.extension] || FileIcon,
     };
 
     setFileOpen(fileopendata);
+   
+    
   };
 
   const makeFolder = async () => {
