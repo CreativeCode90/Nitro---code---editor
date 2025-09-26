@@ -79,50 +79,38 @@ useEffect(() => {
   }, [lines]);
 
   // ---------- Terminal Input Handlers ----------
- const handleKeyDown = async (e, index) => {
+const handleKeyDown = async (e, index) => {
   if (e.key === "Enter") {
     e.preventDefault();
     const command = lines[index].command.trim();
     let output = "";
-
-    // Handle `cd` command locally to update path
     let newPath = lines[index].path;
-    if (command.startsWith("cd ")) {
-      const target = command.slice(3).trim();
 
-      // Simple backend call to validate/change path
-      try {
-        const res = await fetch("http://127.0.0.1:5000/terminal", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ command }),
-        });
-        const data = await res.json();
-        output = data.output || "";
+    try {
+      const res = await fetch("http://127.0.0.1:5000/terminal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command }),
+      });
+      const data = await res.json();
+      output = data.output || "";
+      newPath = data.newPath || newPath;
 
-        // If backend returns a valid new path, update
-        if (data.newPath) {
-          newPath = data.newPath; // backend should return current path after cd
-        }
-      } catch (err) {
-        output = "Error executing cd command";
+      // Clear command
+      if (output === "__CLEAR__") {
+        setLines([
+          {
+            path: newPath,
+            command: "",
+            output: "",
+          },
+        ]);
+        return;
       }
-    } else {
-      // Other commands
-      try {
-        const res = await fetch("http://127.0.0.1:5000/terminal", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ command }),
-        });
-        const data = await res.json();
-        output = data.output || "";
-      } catch (err) {
-        output = "Error executing command";
-      }
+    } catch (err) {
+      output = "Error executing command";
     }
 
-    // Append new line with updated path
     setLines((prev) => [
       ...prev.map((line, i) =>
         i === index ? { ...line, command, output } : line
@@ -135,6 +123,7 @@ useEffect(() => {
     ]);
   }
 };
+
 
 
   const handleInput = (e, index) => {

@@ -124,13 +124,13 @@ class FileManagerAPI:
     def terminal(self):
         """
         Execute shell commands and return stdout/stderr.
-        Handles cd and mkdir specially.
+        Handles cd, mkdir, and clear specially.
         """
         data = request.get_json()
         cmd = data.get("command")
 
         if not cmd:
-             return jsonify({"msg": "No command provided", "output": "", "newPath": self.openWorkingDirectory}), 400
+            return jsonify({"msg": "No command provided", "output": "", "newPath": self.openWorkingDirectory}), 400
 
         output = ""
         newPath = self.openWorkingDirectory
@@ -151,20 +151,24 @@ class FileManagerAPI:
             elif cmd.startswith("mkdir "):
                 target = cmd[6:].strip()
                 target_path = os.path.abspath(os.path.join(self.openWorkingDirectory, target))
-                os.makedirs(target_path, exist_ok=True)  # <- safely creates nested folders
+                os.makedirs(target_path, exist_ok=True)
                 output = f"Folder created: {target_path}"
 
-             # Other commands
+            # Handle clear/cls command
+            elif cmd.strip() in ["clear", "cls"]:
+                output = "__CLEAR__"  # frontend should interpret this
+
+            # Handle all other shell commands
             else:
                 result = subprocess.run(
-                cmd,
-                shell=True,
-                cwd=self.openWorkingDirectory,
-                capture_output=True,
-                text=True,
-                timeout=30
-            )
-            output = result.stdout + result.stderr
+                    cmd,
+                    shell=True,
+                    cwd=self.openWorkingDirectory,
+                    capture_output=True,
+                    text=True,
+                    timeout=30
+                )
+                output = result.stdout + result.stderr
 
         except Exception as e:
             output = str(e)
