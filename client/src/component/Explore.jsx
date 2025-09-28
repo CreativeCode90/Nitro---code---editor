@@ -12,7 +12,7 @@ import ListDist from "./listdir/ListDist";
 
 import NirtroTerminal from "./terminal/NirtroTerminal";
 
-import FileIcon from "../../public/file.png";
+import FileIcon from "/file/file.png";
 
 import { ExtensionIcon } from "./ExtensionIcon";
 import { ToolBarContext } from "../context/ToolbarContext";
