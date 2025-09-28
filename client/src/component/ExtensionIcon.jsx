@@ -15,7 +15,8 @@ export const ExtensionIcon = {
   '.c': "/file/letter-c.png",
   '.md': "/file/substance.png",
   ".pdf" : '/file/pdf.png',
-  ".xlc":'/file/xls.png',
+  ".xls":'/file/xls.png',
+  ".xlsx":'/file/xls.png',
   '.doc':'/file/word.png',
   '.word':'/file/word.png',
   '.ppt':'/file/ppt.png',
@@ -23,7 +24,11 @@ export const ExtensionIcon = {
   '.blend':"/file/blender.png",
   '.blend1':"/file/blender.png",
   '.jpg':'/file/jpg.png',
-  '.png':'/file/png.png'
+  '.jpeg':'/file/jpg.png',
+  '.png':'/file/png.png',
+  '.mp3':'/file/mp3.png',
+  '.mp4':'/file/mp4-file.png',
+  ".svg":'/file/svg.png',
 };
 
 
