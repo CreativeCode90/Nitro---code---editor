@@ -18,22 +18,15 @@ export default function File() {
   const getLanguage = (ext) => {
     const map = {
       ".js": "javascript",
-
       ".jsx": "javascript",
-
       ".ts": "typescript",
-
       ".tsx": "typescript",
-
       ".py": "python",
-
       ".json": "json",
-
       ".html": "html",
-
       ".css": "css",
-
       ".txt": "plaintext",
+      '.md':'markdown',
     };
 
     return map[ext] || "plaintext";
@@ -183,7 +176,7 @@ export default function File() {
           <p className="no-file">Empty</p>
         )}
 
-        <select
+        {/* <select
           value={theme}
           onChange={(e) => setTheme(e.target.value)}
           className="theme-select"
@@ -199,7 +192,7 @@ export default function File() {
           <option value="solarized-light">Solarized Light</option>
 
           <option value="ocean-dark">Ocean Dark</option>
-        </select>
+        </select> */}
       </div>
 
       {/* File Editor */}

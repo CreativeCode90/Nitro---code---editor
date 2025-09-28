@@ -1,0 +1,17 @@
+:root {
+  --darkBLuecolor: #040006ff;
+  --darkPurplecolor: #1b1a1a;
+  --darkPinkcolor: #190126ff;
+  --lightPinkcolor: #1c022bff;
+  --lightPurplecolor: #41ff64;
+  --morelightPurplecolor: #db9dff;
+  --lightpale: #EDB4B2;
+  --fulleditor: var(--darkBLuecolor);
+  --explorerbar: var(--darkBLuecolor);
+  --tabbar: var(--darkBLuecolor);
+  --editorbar: var(--darkPurplecolor);
+  --pannelbar: rgb(26, 26, 26) ;
+  --commonbutton: var(--lightPurplecolor);
+  --terminalcolor: black;
+  --grey :rgb(179, 179, 179);
+}

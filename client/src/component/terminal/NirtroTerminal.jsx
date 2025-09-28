@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect ,useContext } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import "./style.css";
 import { FileTabContext } from "../../context/FileTabContent";
 export default function NitroTerminal() {
-    const {workingpath,} = useContext(FileTabContext);
-    
+  const { workingpath } = useContext(FileTabContext);
+
   const [lines, setLines] = useState([
     {
       path: workingpath,
@@ -12,18 +12,18 @@ export default function NitroTerminal() {
     },
   ]);
   // 1️⃣ Update lines when workingpath changes
-useEffect(() => {
-  setLines((prev) => {
-    // Update the first line's path if it's empty or different
-    if (prev.length > 0) {
-      const firstLine = prev[0];
-      if (!firstLine.path || firstLine.path !== workingpath) {
-        return [{ ...firstLine, path: workingpath }, ...prev.slice(1)];
+  useEffect(() => {
+    setLines((prev) => {
+      // Update the first line's path if it's empty or different
+      if (prev.length > 0) {
+        const firstLine = prev[0];
+        if (!firstLine.path || firstLine.path !== workingpath) {
+          return [{ ...firstLine, path: workingpath }, ...prev.slice(1)];
+        }
       }
-    }
-    return prev;
-  });
-}, [workingpath]);
+      return prev;
+    });
+  }, [workingpath]);
 
   const [height, setHeight] = useState(200);
   const terminalRef = useRef(null);
@@ -79,52 +79,51 @@ useEffect(() => {
   }, [lines]);
 
   // ---------- Terminal Input Handlers ----------
-const handleKeyDown = async (e, index) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    const command = lines[index].command.trim();
-    let output = "";
-    let newPath = lines[index].path;
+  const handleKeyDown = async (e, index) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const command = lines[index].command.trim();
+      let output = "";
+      let newPath = lines[index].path;
 
-    try {
-      const res = await fetch("http://127.0.0.1:5000/terminal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ command }),
-      });
-      const data = await res.json();
-      output = data.output || "";
-      newPath = data.newPath || newPath;
+      try {
+        const res = await fetch("http://127.0.0.1:5000/terminal", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command }),
+        });
 
-      // Clear command
-      if (output === "__CLEAR__") {
-        setLines([
-          {
-            path: newPath,
-            command: "",
-            output: "",
-          },
-        ]);
-        return;
+        const data = await res.json();
+        output = data.output || "";
+        newPath = data.newPath || newPath;
+        
+        // Clear command
+        if (output === "__CLEAR__") {
+          setLines([
+            {
+              path: newPath,
+              command: "",
+              output: "",
+            },
+          ]);
+          return;
+        }
+      } catch (err) {
+        output = "Error executing command";
       }
-    } catch (err) {
-      output = "Error executing command";
+
+      setLines((prev) => [
+        ...prev.map((line, i) =>
+          i === index ? { ...line, command, output } : line
+        ),
+        {
+          path: newPath,
+          command: "",
+          output: "",
+        },
+      ]);
     }
-
-    setLines((prev) => [
-      ...prev.map((line, i) =>
-        i === index ? { ...line, command, output } : line
-      ),
-      {
-        path: newPath,
-        command: "",
-        output: "",
-      },
-    ]);
-  }
-};
-
-
+  };
 
   const handleInput = (e, index) => {
     const text = e.target.innerText;
@@ -157,7 +156,9 @@ const handleKeyDown = async (e, index) => {
             <div key={index} className="terminalline">
               <div className="prompt">
                 <div className="terminalpath">
-                  <p>* {line.path} {'>'} </p>
+                  <p>
+                    * {line.path} {">"}{" "}
+                  </p>
                 </div>
                 <div
                   className="terminalprompt"

@@ -1,19 +1,4 @@
-:root {
-  --darkBLuecolor: #11001c;
-  --darkPurplecolor: #1A0129;
-  --darkPinkcolor: #220135;
-  --lightPinkcolor: #3A025B;
-  --lightPurplecolor: #520380;
-  --morelightPurplecolor: #db9dff;
-  --lightpale: #EDB4B2;
-  --fulleditor: var(--darkBLuecolor);
-  --explorerbar: var(--darkBLuecolor);
-  --tabbar: var(--darkBLuecolor);
-  --editorbar: var(--darkPurplecolor);
-  --pannelbar: var(--lightPinkcolor);
-  --commonbutton: var(--lightPurplecolor);
-  --terminalcolor: black;
-}
+
 
 * {
   padding: 0;
@@ -263,7 +248,7 @@ body::-webkit-scrollbar {
   gap: 15px;
   font-size: 12px;
   color: grey;
-  background-color: rgb(34, 3, 64);
+  background-color: var(--darkPurplecolor);
   padding: 5px 10px;
   justify-content: space-between;
   transition: 0.2s linear;
@@ -271,7 +256,7 @@ body::-webkit-scrollbar {
 
   &:hover {
 
-    background-color: rgb(49, 3, 94);
+    background-color: rgba(3, 48, 11, 0.658);
   }
 
   img {
