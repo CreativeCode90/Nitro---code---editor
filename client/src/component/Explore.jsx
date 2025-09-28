@@ -208,7 +208,7 @@ export default function Explore() {
       <div className="filesystem">
         <Outlet />
 
-        <NirtroTerminal />
+        <NirtroTerminal fetchDirectory={fetchDirectory} currentPath={folderName}   />
 
         <div className="pannel">
           <div className="pn1">

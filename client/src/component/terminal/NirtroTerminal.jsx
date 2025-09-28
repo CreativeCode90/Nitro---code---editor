@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import "./style.css";
 import { FileTabContext } from "../../context/FileTabContent";
-export default function NitroTerminal() {
+export default function NitroTerminal({ fetchDirectory, currentPath }) {
   const { workingpath } = useContext(FileTabContext);
 
   const [lines, setLines] = useState([
@@ -87,40 +87,64 @@ export default function NitroTerminal() {
       let newPath = lines[index].path;
 
       try {
-        const res = await fetch("http://127.0.0.1:5000/terminal", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ command }),
-        });
+        // --- Custom commands handled here ---
+        if (command.startsWith("mkdir ")) {
+          const folderName = command.split(" ")[1];
+          await fetch("http://127.0.0.1:5000/makefolder", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              foldername: folderName,
+              rootdir: currentPath,
+            }),
+          });
+          fetchDirectory(); // refresh explorer
+          output = `Folder '${folderName}' created`;
+        } else if (command.startsWith("touch ")) {
+          const fileName = command.split(" ")[1];
+          await fetch("http://127.0.0.1:5000/makefile", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ filename: fileName, rootdir: currentPath }),
+          });
+          fetchDirectory(); // refresh explorer
+          output = `File '${fileName}' created`;
+        } else if (command.startsWith("rm ")) {
+          const target = command.split(" ")[1];
+          await fetch("http://127.0.0.1:5000/delete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ path: target }),
+          });
+          fetchDirectory();
+          output = `'${target}' deleted`;
+        } else {
+          // --- Fallback: send to backend terminal API ---
+          const res = await fetch("http://127.0.0.1:5000/terminal", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command }),
+          });
+          const data = await res.json();
+          output = data.output || "";
+          newPath = data.newPath || newPath;
+           fetchDirectory(); // refresh explorer
 
-        const data = await res.json();
-        output = data.output || "";
-        newPath = data.newPath || newPath;
-        
-        // Clear command
-        if (output === "__CLEAR__") {
-          setLines([
-            {
-              path: newPath,
-              command: "",
-              output: "",
-            },
-          ]);
-          return;
+          if (output === "__CLEAR__") {
+            setLines([{ path: newPath, command: "", output: "" }]);
+            return;
+          }
         }
       } catch (err) {
-        output = "Error executing command";
+        output = "Error executing command: " + err.message;
       }
 
+      // Update lines
       setLines((prev) => [
         ...prev.map((line, i) =>
           i === index ? { ...line, command, output } : line
         ),
-        {
-          path: newPath,
-          command: "",
-          output: "",
-        },
+        { path: newPath, command: "", output: "" },
       ]);
     }
   };
