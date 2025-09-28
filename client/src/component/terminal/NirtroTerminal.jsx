@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import "./style.css";
 import { FileTabContext } from "../../context/FileTabContent";
+import { ToolBarContext } from "../../context/ToolbarContext";
 export default function NitroTerminal({ fetchDirectory, currentPath }) {
   const { workingpath } = useContext(FileTabContext);
-
+  const {terminaltoggle , setTerminalToggle} = useContext(ToolBarContext);
   const [lines, setLines] = useState([
     {
       path: workingpath,
@@ -11,6 +12,12 @@ export default function NitroTerminal({ fetchDirectory, currentPath }) {
       output: "",
     },
   ]);
+  //  useEffect(() => {
+  //   const handleContextMenu = (e) => e.preventDefault();
+  //   document.addEventListener("contextmenu", handleContextMenu);
+  //   return () => document.removeEventListener("contextmenu", handleContextMenu);
+  // }, []);
+
   // 1️⃣ Update lines when workingpath changes
   useEffect(() => {
     setLines((prev) => {
@@ -23,6 +30,7 @@ export default function NitroTerminal({ fetchDirectory, currentPath }) {
       }
       return prev;
     });
+
   }, [workingpath]);
 
   const [height, setHeight] = useState(200);
@@ -162,7 +170,7 @@ export default function NitroTerminal({ fetchDirectory, currentPath }) {
   };
 
   return (
-    <div className="nitroterminal-wrapper">
+    <div className={terminaltoggle ? 'hideterminal':'nitroterminal-wrapper'}>
       <div className="resizer" onMouseDown={onMouseDown}></div>
       <div
         className="nitroterminal"
@@ -172,7 +180,7 @@ export default function NitroTerminal({ fetchDirectory, currentPath }) {
       >
         <div className="terminaltitle">
           <p>nitro terminal</p>
-          <img src="../../../public/close.png" alt="close" />
+          <img src="../../../public/close.png" alt="close" onClick={()=>setTerminalToggle(!terminaltoggle)} />
         </div>
 
         <div className="terminalcommandsprompt">

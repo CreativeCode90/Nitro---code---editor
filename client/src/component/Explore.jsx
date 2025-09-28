@@ -15,11 +15,12 @@ import NirtroTerminal from "./terminal/NirtroTerminal";
 import FileIcon from "../../public/file.png";
 
 import { ExtensionIcon } from "./ExtensionIcon";
+import { ToolBarContext } from "../context/ToolbarContext";
 
 export default function Explore() {
   const { setFileOpen, cursorPos, indentInfo, workingpath, setWorkingpath } =
     useContext(FileTabContext);
-
+const { projectopen , setProjectopen}  = useContext(ToolBarContext);
   const [folderName, setFolderName] = useState("");
 
   const [listdir, setListDir] = useState([]);
@@ -169,7 +170,7 @@ export default function Explore() {
       <ToolBar />
 
       <div
-        className="exfile"
+        className={projectopen ? 'exfile' : 'exfilehide'}
         ref={sidebarRef}
         style={{ width: `${sidebarWidth}px`, minWidth: "150px" }}
       >

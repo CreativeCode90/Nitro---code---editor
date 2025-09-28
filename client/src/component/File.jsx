@@ -199,7 +199,7 @@ export default function File() {
 
       <div className="fileeditor">
         {fileopen?.type === "file" &&
-          [".txt", ".js", ".py", ".json", ".html", ".css", ".jsx"].includes(
+          [".txt", ".js", ".py", ".json", ".html", ".css", ".jsx",'.cpp','.md'].includes(
             fileopen.extension
           ) && (
             <Editor

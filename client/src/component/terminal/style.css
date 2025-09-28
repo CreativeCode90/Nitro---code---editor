@@ -10,6 +10,9 @@
   user-select: none;
 
 }
+.hideterminal{
+  display: none;
+}
 
 .terminaltitle{
   display: flex;
@@ -42,7 +45,7 @@
   height: 8px; /* for horizontal scrollbar */
 }
 .terminalpath p {
-  color: rgb(33, 255, 151);
+  color: rgb(135, 224, 57);
 }
 
 .terminalprompt{
@@ -77,14 +80,14 @@ direction: ltr;         /* always left-to-right */
   width: 100%;
 }
 .terminaloutput {
-  color: #0f0;
+  color: rgb(135, 224, 57);
   font-family: monospace;
   white-space: pre-wrap;
   margin-left: 10px;
 }
 .terminalprompt:focus {
   outline: none;
-  caret-color: #0f0;
+  color: rgb(135, 224, 57);
   animation: blink-caret 1s step-end infinite;
 }
 

@@ -40,6 +40,9 @@ body::-webkit-scrollbar {
   user-select: none;
   overflow: hidden;
 }
+.exfilehide {
+  display: none;
+}
 
 .exfile::-webkit-scrollbar {
   width: 1px;
@@ -348,4 +351,19 @@ body::-webkit-scrollbar {
   font-size: 9px;
   padding: 4px 10px;
   border-radius: 10px;
+}
+
+
+
+.custom-context-menu{
+  background-color: black;
+  border: 0.1px solid rgba(255, 255, 255, 0.257);
+  z-index: 44;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  box-shadow: rgba(64, 63, 63, 0.24) 0px 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
 }

@@ -3,14 +3,14 @@
   --darkPurplecolor: #1b1a1a;
   --darkPinkcolor: #190126ff;
   --lightPinkcolor: #1c022bff;
-  --lightPurplecolor: #41ff64;
+  --lightPurplecolor: rgb(114, 191, 46);
   --morelightPurplecolor: #db9dff;
   --lightpale: #EDB4B2;
   --fulleditor: var(--darkBLuecolor);
   --explorerbar: var(--darkBLuecolor);
   --tabbar: var(--darkBLuecolor);
   --editorbar: var(--darkPurplecolor);
-  --pannelbar: rgb(26, 26, 26) ;
+  --pannelbar: rgb(4, 43, 3) ;
   --commonbutton: var(--lightPurplecolor);
   --terminalcolor: black;
   --grey :rgb(179, 179, 179);
