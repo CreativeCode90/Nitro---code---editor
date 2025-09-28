@@ -200,13 +200,13 @@ body::-webkit-scrollbar {
   width: 98%;
   padding: 3px;
   font-size: 12px;
-  color: var(--lightpale);
+  color: var(--lightPurplecolor);
   border: 0.2px solid var(--lightPurplecolor);
 
   /* when focused */
   &:focus {
     background-color: black !important;
-    color: var(--morelightPurplecolor);
+    color: var(--lightPurplecolor);
     outline: none;
   }
 
@@ -219,7 +219,7 @@ body::-webkit-scrollbar {
   /* also handle autofill (Chrome/Edge) */
   &:-webkit-autofill {
     box-shadow: 0 0 0px 1000px black inset !important;
-    -webkit-text-fill-color: var(--morelightPurplecolor) !important;
+    -webkit-text-fill-color: var(--lightPurplecolor) !important;
     caret-color: rgb(255, 255, 255);
   }
 }
@@ -357,9 +357,9 @@ body::-webkit-scrollbar {
 
 .custom-context-menu{
   background-color: black;
-  border: 0.1px solid rgba(255, 255, 255, 0.257);
+  border: 0.1px solid var(--lightPurplecolor);
   z-index: 44;
-  padding: 10px 20px;
+  padding: 10px 10px;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
