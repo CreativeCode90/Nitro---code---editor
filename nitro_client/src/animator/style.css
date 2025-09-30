@@ -1,0 +1,18 @@
+.animatorcontainer {
+    font-size: 12px;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+   
+   img{
+    position: absolute;
+    width: 70px;
+    transform: translateY(-10px);
+    user-select: none;
+    right: 0%;
+   }
+
+}

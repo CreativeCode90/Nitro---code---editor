@@ -1,0 +1,125 @@
+
+
+
+/* ediotr  */
+.exfiletool{
+ 
+ display: flex;
+ flex-direction: column;
+ gap: 4px; 
+ padding: 3px;
+ height: 100%;
+}
+
+.hide{
+  display: none;
+}
+.listdirac {
+
+  overflow-y: auto;
+  height: 100%;
+}
+
+.listdirac::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  /* for horizontal scrollbar */
+}
+.simplefileshowig {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 3px;
+  
+}
+.listdir {
+  color: white;
+  text-decoration: none;
+  font-size: 11px;
+  transition: 0.2s linear;
+  display: flex;
+  gap: 1px;
+  justify-content: space-between;
+  flex-direction: column;
+  cursor: pointer;
+  overflow-y: auto;
+
+  #filena {
+    background-color: transparent;
+
+  }
+  &:hover {
+    color: var(--morelightPurplecolor);
+
+  }
+  img {
+    width: 12px;
+  }
+}
+
+.fac {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  position: relative;
+ 
+}
+
+.aicon{
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+}
+#folderopen {
+  display: none;
+}
+
+.custom-context-menu{
+  background-color: black;
+  border: 0.1px solid var(--lightPurplecolor);
+  z-index: 44;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  box-shadow: rgba(64, 63, 63, 0.24) 0px 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+
+
+.exfile{
+
+  font-size: 10px;
+
+}
+
+#pathopen{
+  background-color: rgba(0, 0, 0, 0.36);
+  border: 0.2px solid var(--lightPurplecolor) ;
+  padding: 3px;
+  color: white;
+  outline: none;
+}
+
+
+.pn1{
+  display: flex;
+  font-size: 10px;
+  align-items: center;
+  gap: .4rem;
+}
+.usefilelang{
+  font-size: 10px;
+}
+.ln{
+  color: var(--lightPurplecolor);
+}
+.col{
+  color: greenyellow;
+}
+.inspace{
+  color: rgb(32, 190, 252);
+}

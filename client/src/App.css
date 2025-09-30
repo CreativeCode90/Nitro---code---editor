@@ -78,6 +78,7 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: end;
+  gap: 1rem;
 
   p {
     font-size: 12px;

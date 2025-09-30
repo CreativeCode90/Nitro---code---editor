@@ -1,0 +1,210 @@
+import React, { useContext, useState, useEffect } from "react";
+import { FileTabContext } from "../context/FileTabContent";
+import Editor, { useMonaco } from "@monaco-editor/react";
+import "./file.css";
+export default function File() {
+  const {
+    fileopen,
+    fileData,
+    setFileData,
+    setFileOpen,
+    cursorPos,
+    setCursorPos,
+    indentInfo,
+    setIndentInfo,
+  } = useContext(FileTabContext);
+
+  const [saving, setSaving] = useState(false);
+  const [stagesave, setStageSave] = useState({
+    ln: null,
+    col: null,
+  });
+  const [savedContent, setSavedContent] = useState(""); // <-- store last saved content
+  const [theme, setTheme] = useState("vs-dark"); // 🔥 user-selectable theme
+  const monaco = useMonaco();
+
+  // Map extensions to Monaco languages
+  const getLanguage = (ext) => {
+    const map = {
+      ".js": "javascript",
+      ".jsx": "javascript",
+      ".ts": "typescript",
+      ".tsx": "typescript",
+      ".py": "python",
+      ".json": "json",
+      ".html": "html",
+      ".css": "css",
+      ".txt": "plaintext",
+      ".md": "markdown",
+      ".cpp": "cpp",
+    };
+    return map[ext] || "plaintext";
+  };
+
+  // Save file to backend
+  const saveFile = async () => {
+    if (!fileopen?.path) return;
+
+    setSaving(true);
+
+    try {
+      const res = await fetch("http://127.0.0.1:5000/WriteFile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          path: fileopen.path,
+          content: fileData,
+        }),
+      });
+
+      const result = await res.json();
+
+      setStageSave({
+        ln: cursorPos.line,
+        col: cursorPos.col,
+      });
+
+      setSavedContent(fileData); // <-- update last saved content
+      alert(result.msg || "Saved!");
+    } catch (error) {
+      alert("Failed to save file.");
+    }
+
+    setSaving(false);
+  };
+
+  // Close tab
+  const closeTab = () => {
+    setFileOpen({});
+    setFileData("");
+    setSavedContent(""); // <-- reset saved content
+  };
+
+  // Automatically set tab title when file changes
+  useEffect(() => {
+    document.title = fileopen?.name ? `Editing: ${fileopen.name}` : "Editor";
+  }, [fileopen]);
+
+  // ✅ Register multiple themes
+  useEffect(() => {
+    if (monaco) {
+      monaco.editor.defineTheme("dracula", {
+        base: "vs-dark",
+        inherit: true,
+        rules: [
+          { token: "comment", foreground: "6272a4" },
+          { token: "keyword", foreground: "ff79c6" },
+          { token: "string", foreground: "f1fa8c" },
+          { token: "number", foreground: "bd93f9" },
+        ],
+        colors: { "editor.background": "#282a36" },
+      });
+
+      monaco.editor.defineTheme("solarized-light", {
+        base: "vs",
+        inherit: true,
+        rules: [
+          { token: "comment", foreground: "93a1a1" },
+          { token: "keyword", foreground: "268bd2" },
+          { token: "string", foreground: "2aa198" },
+          { token: "number", foreground: "d33682" },
+        ],
+        colors: { "editor.background": "#fdf6e3" },
+      });
+
+      monaco.editor.defineTheme("ocean-dark", {
+        base: "vs-dark",
+        inherit: true,
+        rules: [
+          { token: "keyword", foreground: "c594c5" },
+          { token: "string", foreground: "99c794" },
+          { token: "number", foreground: "f99157" },
+        ],
+        colors: { "editor.background": "#1b2b34" },
+      });
+    }
+  }, [monaco]);
+
+  // Detect unsaved changes
+  const unsavedChanges = fileData !== savedContent;
+
+  return (
+    <div className="filem">
+      {/* Tab bar */}
+      <div className="tabbar">
+        {fileopen?.name ? (
+          <div className="tabfile">
+            <p className="filename" title={fileopen.path}>
+              <img src={fileopen.icon} alt="" title={fileopen.path} />
+              {fileopen.name} {unsavedChanges && "*"}{" "}
+              {/* <-- show * if unsaved */}
+            </p>
+
+            <button
+              onClick={saveFile}
+              disabled={saving} // still disable while saving
+              className="savingbutton"
+            >
+              {saving ? "Saving..." : unsavedChanges ? "Unsaved" : "Saved"}
+            </button>
+
+            <img
+              src="../../public/close.png"
+              alt="close tab"
+              onClick={closeTab}
+              style={{ cursor: "pointer" }}
+            />
+          </div>
+        ) : (
+         <div className="emprttext">
+           <p className="no-file">Empty</p>
+         </div>
+        )}
+      </div>
+
+      {/* File Editor */}
+      <div className="fileeditor">
+        {fileopen?.type === "file" &&
+          [
+            ".txt",
+            ".js",
+            ".py",
+            ".json",
+            ".html",
+            ".css",
+            ".jsx",
+            ".cpp",
+            ".md",
+          ].includes(fileopen.extension) && (
+            <Editor
+              theme={theme}
+              language={getLanguage(fileopen.extension)}
+              value={fileData}
+              onChange={(newValue) => setFileData(newValue)}
+              onMount={(editor) => {
+                editor.onDidChangeCursorPosition((e) => {
+                  setCursorPos({
+                    line: e.position.lineNumber,
+                    col: e.position.column,
+                  });
+                });
+
+                const model = editor.getModel();
+                if (model) {
+                  const { tabSize, insertSpaces } = model.getOptions();
+                  setIndentInfo({ tabSize, insertSpaces });
+                }
+              }}
+              options={{
+                fontSize: 14,
+                minimap: { enabled: false },
+                wordWrap: "on",
+                scrollBeyondLastLine: false,
+                automaticLayout: true,
+              }}
+            />
+          )}
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,114 @@
+.nitroterminal {
+  /* background: var(--terminalcolor); */
+  border: 1px solid #333;
+  padding: 5px;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  /* stack children vertically */
+  gap: 4px;
+  user-select: none;
+
+}
+
+.hideterminal {
+  display: none;
+}
+
+.terminaltitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-bottom: 0.1px solid var(--lightPurplecolor);
+
+  img {
+    width: 12px;
+  }
+
+  p {
+    padding: 3px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--lightPurplecolor);
+    cursor: pointer;
+  }
+}
+
+.terminalcommandsprompt {
+  padding: 4px;
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: auto;
+}
+.terminalline {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.terminalcommandsprompt::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  /* for horizontal scrollbar */
+}
+
+.terminalpath p {
+  color: rgb(237, 62, 91);
+}
+
+.terminalprompt {
+  color: var(--grey);
+  direction: ltr;
+  /* always left-to-right */
+  unicode-bidi: plaintext;
+  /* prevent mirroring / reversing */
+  text-align: left;
+  /* align properly */
+  white-space: pre;
+  /* keep spaces like real terminal */
+  outline: none;
+  /* no blue outline */
+  caret-color: #0f0;
+  /* terminal-like green caret */
+}
+
+
+
+.terminalprompt:focus {
+  animation: blink-caret 1s step-end infinite;
+}
+
+.nitroterminal-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.terminaloutput {
+  color: rgb(135, 224, 57);
+  font-family: monospace;
+  white-space: pre-wrap;
+  margin-left: 10px;
+}
+
+.terminalprompt:focus {
+  outline: none;
+  color: rgb(135, 224, 57);
+  animation: blink-caret 1s step-end infinite;
+}
+
+.prompt {
+  display: flex;
+  gap: 10px;
+}
+
+@keyframes blink-caret {
+  50% {
+    caret-color: transparent;
+  }
+}

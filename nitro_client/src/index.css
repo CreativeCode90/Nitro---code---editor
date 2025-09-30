@@ -1,0 +1,124 @@
+:root {
+  --darkBLuecolor: #040006ff;
+  --darkPurplecolor: #1b1a1a;
+  --darkPinkcolor: #190126ff;
+  --lightPinkcolor: #1c022bff;
+  --lightPurplecolor: rgb(204, 52, 238);
+  --morelightPurplecolor: #db9dff;
+  --lightpale: #EDB4B2;
+  --fulleditor: var(--darkBLuecolor);
+  --explorerbar: var(--darkBLuecolor);
+  --tabbar: var(--darkBLuecolor);
+  --editorbar: var(--darkPurplecolor);
+  --pannelbar: rgb(4, 43, 3) ;
+  --commonbutton: var(--lightPurplecolor);
+  --terminalcolor: black;
+  --grey :rgb(179, 179, 179);
+  /* --pannel : #141424; */
+  --pannel : #141424c5;
+}
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Make html and body full height */
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  font-family: monospace;
+  /* background-color: #1e1e2e; */
+  color: #fff;
+  overflow: hidden; /* prevent scrolling */
+   background-image: url(../public/img3.jpg);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Fullscreen container for the editor */
+.editor-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 1.2px;
+ 
+}
+
+/* Panels */
+.panel {
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+}
+
+.panel-content {
+  padding: 10px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Specific panels */
+.sidebar {
+    background-color: var(--pannel);
+}
+
+.editor {
+      background-color: var(--pannel);
+}
+
+.terminal {
+   background-color: var(--pannel);
+}
+
+.bottom-fixed {
+  background-color: #181824;
+  height: 20px;   /* fixed height */
+  border-top: 1px solid #2a2a40;
+}
+
+/* Resize handles */
+.resize-handle {
+  background: #9034f85a;
+  transition: background 0.2s;
+}
+
+.resize-handle:hover {
+  background: #666;
+}
+
+.resize-handle.horizontal {
+  height: 1px;
+  cursor: row-resize;
+}
+
+.resize-handle.vertical {
+  width: 1px;
+  cursor: col-resize;
+}
+
+
+.pannelbotton {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 2px 10px 4px;
+   background-color: #111118;
+   border-top: 0.2px solid rgb(238, 105, 255);
+   justify-content: space-between;
+}
+.modetype{
+  font-size: 10px;
+}
+.modetypecolor{
+  color: #db9dff;
+}
+.modetypecolorinsert{
+  color: chartreuse;
+}
